@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<lang
+        xmlns="https://xml.arnyminerz.com/lang"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="https://raw.githubusercontent.com/FilaMagenta/Web/master/docs ../docs/lang.schema.xml"
+        key="en-US">
+
+    <!-- LOGIN SCREEN -->
+    <item name="login-title">Log In</item>
+    <item name="login-dni">DNI</item>
+    <item name="login-password">Password</item>
+    <item name="login-action">Login</item>
+    <item name="login-error-dni">Please, introduce a valid DNI.</item>
+
+</lang>
