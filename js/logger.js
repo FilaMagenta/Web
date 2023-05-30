@@ -31,6 +31,7 @@ class LogLevel {
 
 const DEBUG = new LogLevel('#29728e', 'D');
 const INFO = new LogLevel('#298619', 'I');
+const WARN = new LogLevel('#ee8b09', 'W');
 const ERROR = new LogLevel('#ad041f', 'E');
 
 function getColorBrightness(color) {
@@ -93,6 +94,10 @@ class Logger {
 
     info(...message) {
         this.print(INFO, ...message);
+    }
+
+    warn(...message) {
+        this.print(WARN, ...message);
     }
 
     error(...message) {
