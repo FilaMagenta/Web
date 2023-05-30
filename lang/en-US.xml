@@ -12,4 +12,9 @@
     <item name="login-action">Login</item>
     <item name="login-error-dni">Please, introduce a valid DNI.</item>
 
+    <!-- MAIN TOOLBAR -->
+    <item name="nav-events">Events</item>
+    <item name="nav-news">News</item>
+    <item name="nav-profile">Profile</item>
+
 </lang>

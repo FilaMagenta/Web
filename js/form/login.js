@@ -15,15 +15,42 @@ window.addEventListener('load', function () {
             dniField.classList.add('is-valid');
     });
 
+    /** @type {HTMLInputElement} */
+    const passwordField = document.getElementById('login_password');
+    /** @type {HTMLButtonElement} */
+    const loginButton = document.getElementById('login_button');
+    /** @type {HTMLSpanElement} */
+    const loginButtonSpinner = document.getElementById('login_button_spinner');
+
     /** @type {HTMLFormElement} */
     const form = document.getElementById('login_form');
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
         event.preventDefault();
 
-        const dni = dniField.value;
-        if (!validateDni(dni)) {
-            showSnackbar(getTranslation('login-error-dni'));
-            return;
+        dniField.disabled = true;
+        passwordField.disabled = true;
+        loginButton.disabled = true;
+        loginButtonSpinner.classList.remove('d-none');
+
+        try {
+            const dni = dniField.value;
+            if (!validateDni(dni)) {
+                showSnackbar(getTranslation('login-error-dni'));
+                return;
+            }
+            const password = passwordField.value;
+
+            // Try logging in
+            const result = await login(dni, password);
+            if (result.success !== true || !result.hasOwnProperty('data')) return;
+            const {token, expires} = result.data;
+            setCookie('token', token, expires * 1000);
+            window.location.reload();
+        } finally {
+            dniField.disabled = false;
+            passwordField.disabled = false;
+            loginButton.disabled = false;
+            loginButtonSpinner.classList.add('d-none');
         }
     });
 })

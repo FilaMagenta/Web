@@ -8,10 +8,10 @@ window.addEventListener('load', function () {
     // Check if browser is compatible
     const bluetooth = navigator.bluetooth
     if (bluetooth == null) {
-
+        return bt_logger.error('Bluetooth is not available in this browser.');
     }
 
-    navigator.bluetooth
+    bluetooth
         .getAvailability()
         .then(isBluetoothAvailable => {
             bt_logger.info(`Bluetooth is ${isBluetoothAvailable ? 'available' : 'unavailable'}`);
