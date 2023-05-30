@@ -24,6 +24,7 @@ class LogLevel {
 
 const DEBUG = new LogLevel('#29728e', 'D');
 const INFO = new LogLevel('#298619', 'I');
+const ERROR = new LogLevel('#ad041f', 'E');
 
 class Logger {
     /**
@@ -70,5 +71,9 @@ class Logger {
 
     info(...message) {
         this.print(INFO, ...message);
+    }
+
+    error(...message) {
+        this.print(ERROR, ...message);
     }
 }
