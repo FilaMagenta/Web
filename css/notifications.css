@@ -1,0 +1,48 @@
+#notifications {
+    position: fixed;
+    top: 0;
+    right: 0;
+}
+
+#notifications .card {
+    margin: 12px;
+    cursor: default;
+    max-width: 18rem;
+
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+    However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s;
+    animation: fadein 0.5s;
+}
+
+#notifications .card.clickable {
+    cursor: pointer;
+}
+
+#notifications .card.hide {
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+    However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadeout 0.5s;
+    animation: fadeout 0.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {right: -18rem; opacity: 0;}
+    to {right: 0; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {right: -18rem; opacity: 0;}
+    to {right: 0; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {right: 0; opacity: 1;}
+    to {right: -18rem; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {right: 0; opacity: 1;}
+    to {right: -18rem; opacity: 0;}
+}
