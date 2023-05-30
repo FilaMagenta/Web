@@ -31,6 +31,7 @@ class Notification {
         this.message = message;
         this.uuid = UUIDv4(false);
         this.hideWithClick = hideWithClick;
+        this.hideAutomatically = hideAutomatically;
     }
 
     /** @type {string} */ title;
@@ -53,7 +54,7 @@ class Notification {
      * @return {Promise<void>}
      */
     async show() {
-        if (!this.isVisible()) return;
+        if (this.isVisible()) return;
 
         const element = createElement(
             _notification
