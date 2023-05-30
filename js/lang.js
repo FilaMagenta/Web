@@ -8,20 +8,20 @@ const logger = new Logger('localization', '#6c38ec');
  * The currently selected language.
  * @type {string}
  */
-let lang = 'en-US';
+let lang = 'en';
 
 /**
  * The fallback language to use if the string required is not available in the selected one. All translations should be
  * available in this language.
  * @type {string}
  */
-const fallbackLang = 'en-US';
+const fallbackLang = 'en';
 
 /**
  * Specifies a list of supported languages. There should be matching `<lang>.xml` files in `/lang`.
  * @type {string[]}
  */
-const languages = ['en-US'];
+const languages = ['en'];
 
 /**
  * Stores all the translations loaded, sorted by language.
@@ -98,6 +98,16 @@ function refreshScreen() {
         const key = node.getAttribute('data-translate');
         node.innerText = getTranslation(key) ?? 'N/A';
     }
+
+    // Remove the manifest if any set before
+    let manifestMeta = document.querySelector('meta[rel="manifest"]');
+    manifestMeta?.remove();
+
+    // Add the manifest for the current language.
+    manifestMeta = document.createElement('meta');
+    manifestMeta.setAttribute('rel', 'manifest');
+    manifestMeta.setAttribute('href', `/manifest-${lang}.json`)
+    document.head.appendChild(manifestMeta);
 }
 
 window.addEventListener('load', async function () {
