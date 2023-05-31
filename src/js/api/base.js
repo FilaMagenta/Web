@@ -171,14 +171,6 @@ function getApi(timeout = 10_000) {
 }
 
 window.addEventListener('load', async () => {
-    // Check if the remote API is correctly configured in meta
-    /** @type {HTMLMetaElement} */ const serverMeta = document.querySelector('meta[name="magenta_server"]');
-    if (serverMeta == null) {
-        api_logger.error('Remote server is not correctly configured: could not find meta with name="magenta_server".');
-        alert('INTERNAL EXCEPTION!');
-        return;
-    }
-
     /** @type {string} */
     const server = apiConfig.server;
     try {
