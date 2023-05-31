@@ -47,10 +47,12 @@ function httpPost(url, data = {}, headers = null) {
 
     return new Promise((resolve, reject) => {
         http.onreadystatechange = () => {
-            // Wait until complete
-            if (http.readyState !== 4 || http.status !== 200) return;
-
-            resolve(http.responseText)
+            // Wait until done
+            if (http.readyState !== 4) return;
+            if (http.status >= 200 && http.status < 300)
+                resolve(http.responseText)
+            else
+                reject(http.responseText);
         };
         http.onerror = () => { reject(new Error(`Error ${http.status}: ${http.statusText}`)); };
         api_logger.log('Running POST request to', url);
@@ -131,12 +133,15 @@ class API {
      * @param {Object} data Some optional data to append to the body of the request. Formats to JSON.
      * @return {Promise<Result>}
      */
-    async post(endpoint, data) {
+    post(endpoint, data) {
         /** @type {Map<string, string>} */ const headers = new Map();
         headers.set('Authorization', `Bearer ${this._token}`);
 
-        const result = await httpPost(`${this.server}/${this.version}/${endpoint}`, data, headers);
-        return JSON.parse(result);
+        return new Promise((resolve) => {
+            httpPost(`${this.server}/${this.version}/${endpoint}`, data, headers)
+                .then(result => { resolve(JSON.parse(result)) })
+                .catch(result => { resolve(JSON.parse(result)) })
+        })
     }
 }
 

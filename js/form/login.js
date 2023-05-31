@@ -3,6 +3,10 @@
  * @file login.js
  */
 
+const login_logger = new Logger('login', '#17d937')
+
+const LOGIN_ERROR_WRONG_PASSWORD = 56;
+
 window.addEventListener('load', function () {
     /** @type {HTMLInputElement} */
     const dniField = document.getElementById('login_dni');
@@ -41,11 +45,26 @@ window.addEventListener('load', function () {
             const password = passwordField.value;
 
             // Try logging in
+            login_logger.log(`Logging in as ${dni}...`);
             const result = await login(dni, password);
-            if (result.success !== true || !result.hasOwnProperty('data')) return;
+            if (result.success !== true || !result.hasOwnProperty('data')) {
+                const errorCode = result.error_code;
+                switch (errorCode) {
+                    case LOGIN_ERROR_WRONG_PASSWORD:
+                        showSnackbar(getTranslation('login-error-password'));
+                        break;
+                    default:
+                        login_logger.error(`Could not log in. Error (${result.error_code}): ${result.error_message}`);
+                        break;
+                }
+                return;
+            }
+
             const {token, expires} = result.data;
             setCookie('token', token, expires * 1000);
             window.location.reload();
+        } catch (err) {
+            login_logger.error('Login error:', err);
         } finally {
             dniField.disabled = false;
             passwordField.disabled = false;
