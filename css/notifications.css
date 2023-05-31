@@ -11,8 +11,8 @@
 
     /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
     However, delay the fade out process for 2.5 seconds */
-    -webkit-animation: fadein 0.5s;
-    animation: fadein 0.5s;
+    -webkit-animation: n-fadein 0.5s;
+    animation: n-fadein 0.5s;
 }
 
 #notifications .card.clickable {
@@ -22,27 +22,27 @@
 #notifications .card.hide {
     /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
     However, delay the fade out process for 2.5 seconds */
-    -webkit-animation: fadeout 0.5s;
-    animation: fadeout 0.5s;
+    -webkit-animation: n-fadeout 0.5s;
+    animation: n-fadeout 0.5s;
 }
 
 /* Animations to fade the snackbar in and out */
-@-webkit-keyframes fadein {
+@-webkit-keyframes n-fadein {
     from {right: -18rem; opacity: 0;}
     to {right: 0; opacity: 1;}
 }
 
-@keyframes fadein {
+@keyframes n-fadein {
     from {right: -18rem; opacity: 0;}
     to {right: 0; opacity: 1;}
 }
 
-@-webkit-keyframes fadeout {
+@-webkit-keyframes n-fadeout {
     from {right: 0; opacity: 1;}
     to {right: -18rem; opacity: 0;}
 }
 
-@keyframes fadeout {
+@keyframes n-fadeout {
     from {right: 0; opacity: 1;}
     to {right: -18rem; opacity: 0;}
 }
