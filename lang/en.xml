@@ -4,6 +4,8 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="https://raw.githubusercontent.com/FilaMagenta/Web/master/docs ../docs/lang.schema.xml"
         key="en-US">
+    <!-- FOOTER TEXT -->
+    <item name="footer">Made by ArnyminerZ for Filà Magenta</item>
 
     <!-- LOGIN SCREEN -->
     <item name="login-title">Log In</item>
