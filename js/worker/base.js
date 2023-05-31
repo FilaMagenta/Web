@@ -13,9 +13,9 @@ async function registerWorker(name, file) {
 
 window.addEventListener('load', () => {
     if ('serviceWorker' in navigator) {
-        registerWorker('Connectivity check', '/connectivity_check.mjs')
-            .then(() => worker_logger.log('Connectivity check registered!'))
-            .catch(err => worker_logger.error('Could not register connectivity checker. Error:', err));
+        registerWorker('Offline', '/service-worker.js')
+            .then(() => worker_logger.log('Offline worker registered!'))
+            .catch(err => worker_logger.error('Could not register offline worker. Error:', err));
     } else {
         worker_logger.warn('Your browser does not support service workers. Some functions may not work as expected.');
     }
