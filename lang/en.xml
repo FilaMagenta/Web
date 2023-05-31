@@ -7,6 +7,12 @@
     <!-- FOOTER TEXT -->
     <item name="footer">Made by ArnyminerZ for Filà Magenta</item>
 
+    <!-- GENERIC ACTIONS -->
+    <item name="action-logout">Logout</item>
+
+    <!-- GENERIC TEXT -->
+    <item name="status-not-set">Not set</item>
+
     <!-- LOGIN SCREEN -->
     <item name="login-title">Log In</item>
     <item name="login-dni">DNI</item>
@@ -19,5 +25,21 @@
     <item name="nav-events">Events</item>
     <item name="nav-news">News</item>
     <item name="nav-profile">Profile</item>
+
+    <!-- PROFILE PAGE -->
+    <item name="profile-welcome">Welcome back, </item>
+    <item name="profile-title-general">General information</item>
+    <item name="profile-title-address">Address</item>
+    <item name="profile-first-name">First Name</item>
+    <item name="profile-last-name">Last Name</item>
+    <item name="profile-email">Email</item>
+    <item name="profile-dni">DNI</item>
+    <item name="profile-birthday">Birthday</item>
+    <item name="profile-address-1">Address Line 1</item>
+    <item name="profile-address-2">Address Line 2</item>
+    <item name="profile-city">City</item>
+    <item name="profile-state">City</item>
+    <item name="profile-postcode">Postcode</item>
+    <item name="profile-country">Country</item>
 
 </lang>

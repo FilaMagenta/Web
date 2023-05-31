@@ -24,3 +24,11 @@ function getCookie(name) {
     }
     return null;
 }
+
+/**
+ * Removes the value of the cookie stored at the given key.
+ * @param {string} name The name of the cookie to get.
+ */
+function clearCookie(name) {
+    setCookie(name, '', 0);
+}

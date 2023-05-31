@@ -53,15 +53,61 @@
  */
 
 /**
- * Replaces the inner text of all the elements in the body that have the given class with the passed text.
- * @param {string} className The classname to find.
- * @param {string} text The text to set on each element.
+ * @callback PropertyFiller
+ * @template ValueType
+ * @param {Element} element
+ * @param {ValueType} value
  */
-function fillWithClass(className, text) {
+
+/**
+ * Replaces a property of all the elements in the body that have the given class with the passed text.
+ * @template ValueType
+ * @param {string} className The classname to find.
+ * @param {ValueType} value The value to set on each element.
+ * @param {PropertyFiller<ValueType>} setter A function which is what updates the desired property.
+ */
+function fillWithClass(className, value, setter = (element, value) => { element.innerText = value; }) {
     const elements = document.getElementsByClassName(className);
     for (const element of elements) {
-        element.innerText = text;
+        setter(element, value)
     }
+}
+
+/**
+ * @type {?UserData}
+ */
+let user;
+
+/**
+ * Fetches the value of the meta with the given key of user. Must be initialized before.
+ * @param {string} key The key of the metadata to get.
+ * @param {UserData} user The user to get the data from.
+ * @return {?string}
+ * @see user
+ */
+function getUserMeta(key, user = user) {
+    /** @type {?MetaData} */
+    const meta = user?.meta_data?.find((metaData) => metaData.key === key);
+    return meta?.value;
+}
+
+
+/**
+ * @private
+ * @type {PropertyFiller<Object>}
+ */
+const _updateUserField = (element, value) => {
+    const property = element.getAttribute('data-property');
+    element.value = value[property] ?? getTranslation('status-not-set');
+}
+
+/**
+ * @private
+ * @type {PropertyFiller<Object>}
+ */
+const _updateUserMeta = (element, value) => {
+    const key = element.getAttribute('data-meta');
+    element.value = getUserMeta(key, value) ?? getTranslation('status-not-set');
 }
 
 window.addEventListener('load', async () => {
@@ -75,7 +121,24 @@ window.addEventListener('load', async () => {
     api?.get('account').then((result) => {
         // If not successful, return
         if (result.success !== true) return;
-        /** @type {UserData} */ const user = result.data;
-        fillWithClass('fill-user-name', `${user.first_name} ${user.last_name}`)
+        user = result.data;
+
+        // FILL FIELDS
+        fillWithClass('fill-user-name', `${user.first_name} ${user.last_name}`);
+        fillWithClass('user-field', user, _updateUserField);
+        fillWithClass('user-field-meta', user, _updateUserMeta);
+
+        // ADD ACTIONS
+        document.querySelectorAll('[data-action="logout"]').forEach(element => {
+            element.addEventListener('click', () => {
+                clearCookie('token');
+                window.location.reload();
+            })
+        });
+
+        // Update all fields
+        document.querySelectorAll('.form-outline').forEach((formOutline) => {
+            new mdb.Input(formOutline).init();
+        });
     })
 });

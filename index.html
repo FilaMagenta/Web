@@ -107,11 +107,112 @@
              aria-labelledby="tab_profile"
         >
             <div class="card text-center">
-                <div class="card-header fill-user-name"></div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Button</a>
+                    <h3 class="card-title">
+                        <span data-translate="profile-welcome"></span>
+                        <span class="fill-user-name"></span>
+                    </h3>
+
+                    <!-- GENERAL PROFILE INFORMATION -->
+                    <div class="row my-4">
+                        <div class="col-md-1"></div>
+                        <div class="col">
+                            <h5 class="text-start" data-translate="profile-title-general"></h5>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    <!-- FIRST AND LAST NAME -->
+                    <div class="row my-4">
+                        <div class="col-md-1"></div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" id="user_name" class="form-control user-field"
+                                       data-property="first_name" readonly/>
+                                <label class="form-label" for="user_name" data-translate="profile-first-name"></label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" id="user_surname" class="form-control user-field"
+                                       data-property="last_name" readonly/>
+                                <label class="form-label" for="user_surname" data-translate="profile-last-name"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    <!-- EMAIL AND DNI -->
+                    <div class="row my-4">
+                        <div class="col-md-1"></div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" id="user_email" class="form-control user-field" data-property="email"
+                                       readonly/>
+                                <label class="form-label" for="user_email" data-translate="profile-email"></label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" id="user_dni" class="form-control user-field"
+                                       data-property="username" readonly/>
+                                <label class="form-label" for="user_dni" data-translate="profile-dni"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    <!-- BIRTHDAY -->
+                    <div class="row my-4">
+                        <div class="col-md-1"></div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" id="user_birthday" class="form-control user-field-meta"
+                                       data-meta="birthday" readonly/>
+                                <label class="form-label" for="user_birthday" data-translate="profile-birthday"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <!-- USER ADDRESS -->
+                    <div class="row my-4">
+                        <div class="col-md-1"></div>
+                        <div class="col">
+                            <h5 class="text-start" data-translate="profile-title-address"></h5>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-1"></div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" id="user_address_1" class="form-control user-field"
+                                       data-property="billing.address_1" readonly/>
+                                <label class="form-label" for="user_address_1" data-translate="profile-address-1"></label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" id="user_address_2" class="form-control user-field"
+                                       data-property="billing.address_2" readonly/>
+                                <label class="form-label" for="user_address_2" data-translate="profile-address-1"></label>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+                    <div class="row my-4">
+                        <div class="col-md-1"></div>
+                        <div class="col">
+                            <div class="">
+                                <label class="form-select-label" for="user_country" data-translate="profile-country"></label>
+                                <select id="user_country" class="form-control country-selector"></select>
+                            </div>
+                        </div>
+                        <div class="col-md-1"></div>
+                    </div>
+
+                    <button type="button" class="btn btn-link" data-mdb-ripple-color="dark" data-action="logout">
+                        <i class="fa-solid fa-right-from-bracket me-2"></i>
+                        <span data-translate="action-logout"></span>
+                    </button>
                 </div>
                 <div class="card-footer text-muted">2 days ago</div>
             </div>
@@ -145,9 +246,7 @@
 ></script>
 
 <!-- Localization -->
-<script type="text/javascript"
-        src="js/lang.js"
-></script>
+<script type="text/javascript" src="js/lang.js"></script>
 
 <!-- Utils -->
 <script type="text/javascript" src="js/utils/string.js"></script>
@@ -155,6 +254,7 @@
 <script type="text/javascript" src="js/utils/snackbar.js"></script>
 <script type="text/javascript" src="js/utils/notifications.js"></script>
 <script type="text/javascript" src="js/utils/cookies.js"></script>
+<script type="text/javascript" src="js/utils/countries.js"></script>
 
 <!-- Validation -->
 <script type="text/javascript"

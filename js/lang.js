@@ -2,7 +2,7 @@
  * Provides access for logging messages.
  * @private
  */
-const logger = new Logger('localization', '#6c38ec');
+const lang_logger = new Logger('localization', '#6c38ec');
 
 /**
  * The currently selected language.
@@ -69,11 +69,11 @@ async function loadContents(langCode) {
  * Loads the contents of the languages listed in [languages]
  */
 async function loadLanguages() {
-    logger.log('Loading', languages.length, 'languages...')
+    lang_logger.log('Loading', languages.length, 'languages...')
     for (const lang of languages) {
         const localization = await loadContents(lang);
         localizationCache.set(lang, localization);
-        logger.log(lang, 'loaded!')
+        lang_logger.log(lang, 'loaded!')
     }
 }
 
@@ -108,10 +108,26 @@ function refreshScreen() {
     manifestMeta.setAttribute('rel', 'manifest');
     manifestMeta.setAttribute('href', `/manifest-${lang}.json`)
     document.head.appendChild(manifestMeta);
+
+    // Load countries list for locale
+    /** @type {Country[]} */ const countriesList = countries[lang];
+    lang_logger.log('Loading', countriesList.length, 'countries for current locale.');
+    for (/** @type {HTMLSelectElement} */ const select of document.getElementsByClassName('country-selector')) {
+        if (select.tagName.toLowerCase() !== 'select') continue
+        // Remove all existing options
+        for (let child of select.children) child.remove()
+        // Add countries
+        for (const country of countriesList) {
+            const option = document.createElement('option');
+            option.value = country.code;
+            option.innerText = country.name;
+            select.appendChild(option);
+        }
+    }
 }
 
 window.addEventListener('load', async function () {
-    logger.log('> Localization.')
+    lang_logger.log('> Localization.')
     await loadLanguages();
     refreshScreen();
 });
