@@ -179,7 +179,8 @@ window.addEventListener('load', async () => {
         return;
     }
 
-    const server = serverMeta.getAttribute('content');
+    /** @type {string} */
+    const server = apiConfig.server;
     try {
         const target = new API(server);
         await target.ping();
