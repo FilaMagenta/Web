@@ -99,15 +99,20 @@ function refreshScreen() {
         node.innerText = getTranslation(key) ?? 'N/A';
     }
 
-    // Remove the manifest if any set before
-    let manifestMeta = document.querySelector('meta[rel="manifest"]');
-    manifestMeta?.remove();
+    /** @type {?HTMLMetaElement} */
+    const translateManifestMeta = document.querySelector('meta[name="translate-manifest"]');
+    const shouldTranslateManifest = translateManifestMeta?.content === 'true' ?? true;
+    if(shouldTranslateManifest) {
+        // Remove the manifest if any set before
+        let manifestMeta = document.querySelector('link[rel="manifest"]');
+        manifestMeta?.remove();
 
-    // Add the manifest for the current language.
-    manifestMeta = document.createElement('meta');
-    manifestMeta.setAttribute('rel', 'manifest');
-    manifestMeta.setAttribute('href', `/manifest-${lang}.json`)
-    document.head.appendChild(manifestMeta);
+        // Add the manifest for the current language.
+        manifestMeta = document.createElement('link');
+        manifestMeta.setAttribute('rel', 'manifest');
+        manifestMeta.setAttribute('href', `/manifest-${lang}.json`)
+        document.head.appendChild(manifestMeta);
+    }
 
     // Load countries list for locale
     /** @type {Country[]} */ const countriesList = countries[lang];
