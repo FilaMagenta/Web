@@ -30,6 +30,6 @@ jobs:
         with:
           push: true
           tags: |
-            arnyminerz/filamagenta:${{ steps.vars.outputs.tag }}
-            arnyminerz/filamagenta:latest
+            arnyminerz/filamagenta-webapp:${{ steps.vars.outputs.tag }}
+            arnyminerz/filamagenta-webapp:latest
           platforms: linux/arm64,linux/arm/v7,linux/amd64
