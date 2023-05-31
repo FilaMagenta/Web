@@ -9,6 +9,8 @@
 
     <!-- GENERIC ACTIONS -->
     <item name="action-logout">Logout</item>
+    <item name="action-view-qr">View QR</item>
+    <item name="action-register">Register</item>
 
     <!-- GENERIC TEXT -->
     <item name="status-not-set">Not set</item>
