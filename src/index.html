@@ -201,23 +201,22 @@
                     </div>
 
                     <!-- USER ADDRESS -->
-                    <div class="row my-4">
+                    <div class="row">
                         <div class="col-md-1"></div>
-                        <div class="col">
+                        <div class="col-12 col-md-10 my-4">
                             <h5 class="text-start" data-translate="profile-title-address"></h5>
                         </div>
                         <div class="col-md-1"></div>
-                    </div>
-                    <div class="row my-4">
+
                         <div class="col-md-1"></div>
-                        <div class="col">
+                        <div class="col-6 col-md-5">
                             <div class="form-outline">
                                 <input type="text" id="user_address_1" class="form-control user-field"
                                        data-property="billing.address_1" readonly/>
                                 <label class="form-label" for="user_address_1" data-translate="profile-address-1"></label>
                             </div>
                         </div>
-                        <div class="col">
+                        <div class="col-6 col-md-5">
                             <div class="form-outline">
                                 <input type="text" id="user_address_2" class="form-control user-field"
                                        data-property="billing.address_2" readonly/>
@@ -225,19 +224,33 @@
                             </div>
                         </div>
                         <div class="col-md-1"></div>
-                    </div>
-                    <div class="row my-4">
+
                         <div class="col-md-1"></div>
-                        <div class="col">
-                            <div class="">
-                                <label class="form-select-label" for="user_country" data-translate="profile-country"></label>
-                                <select id="user_country" class="form-control country-selector"></select>
+                        <div class="col-6 col-md-4 mt-3">
+                            <div class="form-outline">
+                                <input type="text" id="user_city" class="form-control user-field"
+                                       data-property="billing.city" readonly/>
+                                <label class="form-label" for="user_city" data-translate="profile-city"></label>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3 mt-3">
+                            <div class="form-outline">
+                                <input type="text" id="user_postcode" class="form-control user-field"
+                                       data-property="billing.postcode" readonly/>
+                                <label class="form-label" for="user_postcode" data-translate="profile-postcode"></label>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-3 mt-3">
+                            <div class="form-outline">
+                                <input type="text" id="user_state" class="form-control user-field"
+                                       data-property="billing.state" readonly/>
+                                <label class="form-label" for="user_state" data-translate="profile-state"></label>
                             </div>
                         </div>
                         <div class="col-md-1"></div>
                     </div>
 
-                    <button type="button" class="btn btn-link" data-mdb-ripple-color="dark" data-action="logout">
+                    <button type="button" class="btn btn-link mt-5" data-mdb-ripple-color="dark" data-action="logout">
                         <i class="fa-solid fa-right-from-bracket me-2"></i>
                         <span data-translate="action-logout"></span>
                     </button>
