@@ -50,7 +50,7 @@
       "src": "/img/icon/icon-monochrome.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "maskable monochrome"
+      "purpose": "monochrome"
     }
   ]
 }
