@@ -11,6 +11,11 @@
     <item name="action-logout">Logout</item>
     <item name="action-view-qr">View QR</item>
     <item name="action-register">Register</item>
+    <item name="action-view">View</item>
+    <item name="action-add-reminder">Add Reminder</item>
+    <item name="action-close">Close</item>
+    <item name="action-add">Add</item>
+    <item name="action-remove">Remove</item>
 
     <!-- GENERIC TEXT -->
     <item name="status-not-set">Not set</item>
@@ -44,5 +49,25 @@
     <item name="profile-postcode">Postcode</item>
     <item name="profile-country">Country</item>
     <item name="profile-role-admin">Admin</item>
+
+    <!-- EVENT MODAL -->
+    <item name="event-modal-description">Description</item>
+    <item name="event-modal-more">More Information</item>
+    <item name="event-modal-reservations">Reservations Until:</item>
+    <item name="event-modal-date">Event Date:</item>
+    <item name="event-modal-guests">Guests allowed:</item>
+    <item name="event-modal-guests-all">Infinite</item>
+    <item name="event-modal-reservation">Reservation</item>
+    <item name="event-modal-res-name">Name</item>
+    <item name="event-modal-res-relationship">Relationship</item>
+    <item name="event-modal-res-status">Status</item>
+    <item name="event-modal-res-table">Table</item>
+    <item name="event-modal-res-you">You</item>
+    <item name="event-modal-res-table-new">New</item>
+    <item name="event-modal-res-table-same">Same</item>
+    <item name="event-modal-res-status-paid">Paid</item>
+    <item name="event-modal-res-status-processing">Processing</item>
+    <item name="event-modal-res-status-not-paid">Not Paid</item>
+    <item name="event-modal-res-status-default">Won't Attend</item>
 
 </lang>

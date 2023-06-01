@@ -140,7 +140,8 @@
                     <h3 class="card-title">
                         <span data-translate="profile-welcome"></span>
                         <span class="fill-user-name"></span>
-                        <span class="badge badge-danger show-if-admin d-none" data-translate="profile-role-admin"></span>
+                        <span class="badge badge-danger show-if-admin d-none"
+                              data-translate="profile-role-admin"></span>
                     </h3>
 
                     <!-- GENERAL PROFILE INFORMATION -->
@@ -215,14 +216,16 @@
                             <div class="form-outline">
                                 <input type="text" id="user_address_1" class="form-control user-field"
                                        data-property="billing.address_1" readonly/>
-                                <label class="form-label" for="user_address_1" data-translate="profile-address-1"></label>
+                                <label class="form-label" for="user_address_1"
+                                       data-translate="profile-address-1"></label>
                             </div>
                         </div>
                         <div class="col-6 col-md-5">
                             <div class="form-outline">
                                 <input type="text" id="user_address_2" class="form-control user-field"
                                        data-property="billing.address_2" readonly/>
-                                <label class="form-label" for="user_address_2" data-translate="profile-address-1"></label>
+                                <label class="form-label" for="user_address_2"
+                                       data-translate="profile-address-1"></label>
                             </div>
                         </div>
                         <div class="col-md-1"></div>
@@ -262,6 +265,60 @@
         </div>
     </div>
     <!-- Pills content -->
+</div>
+
+<!-- Event Modal -->
+<div class="modal fade" id="eventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-md-down">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="eventModalLabel" data-source="event" data-key="name"></h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body mx-0 mx-md-3 mx-lg-5 my-3">
+                <h5 data-translate="event-modal-description"></h5>
+                <p data-source="event" data-key="description" data-property="innerHTML"></p>
+
+                <h5 data-translate="event-modal-more"></h5>
+                <dl class="row">
+                    <!-- Event date -->
+                    <dt class="col-sm-3" data-source="event" data-meta-key="date" data-format="display"
+                        data-translate="event-modal-date"></dt>
+                    <dd class="col-sm-9" data-source="event" data-meta-key="date" data-format="date"
+                        data-action="reminder" data-property="innerText"></dd>
+                    <!-- Reservations Until -->
+                    <dt class="col-sm-3" data-source="event" data-meta-key="until" data-format="display"
+                        data-translate="event-modal-reservations"></dt>
+                    <dd class="col-sm-9" data-source="event" data-meta-key="until" data-format="date"
+                        data-action="reminder" data-property="innerText"></dd>
+                    <!-- Guests -->
+                    <dt class="col-sm-3" data-translate="event-modal-guests"></dt>
+                    <dd class="col-sm-9" data-source="event" data-meta-key="external_limit" data-property="innerText"
+                        data-default-translate="event-modal-guests-all"></dd>
+                </dl>
+
+                <h5 data-translate="event-modal-reservation"></h5>
+                <table class="table align-middle mb-0 bg-white" id="eventModalTable">
+                    <thead class="bg-light">
+                    <tr>
+                        <th data-translate="event-modal-res-name"></th>
+                        <th data-translate="event-modal-res-relationship"></th>
+                        <th data-translate="event-modal-res-status"></th>
+                        <th data-translate="event-modal-res-table"></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <button id="eventModalTableAdd" type="button" class="btn btn-link" data-translate="action-add"></button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-translate="action-register"></button>
+
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" data-translate="action-close"></button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Footer -->
