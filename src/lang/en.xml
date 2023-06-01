@@ -43,5 +43,6 @@
     <item name="profile-state">City</item>
     <item name="profile-postcode">Postcode</item>
     <item name="profile-country">Country</item>
+    <item name="profile-role-admin">Admin</item>
 
 </lang>

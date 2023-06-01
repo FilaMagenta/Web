@@ -110,9 +110,47 @@ const _updateUserMeta = (element, value) => {
     element.value = getUserMeta(key, value) ?? getTranslation('status-not-set');
 }
 
+/**
+ * Updates all the fields with the value of user.
+ */
+function refreshUserDisplay() {
+    // FILL FIELDS
+    fillWithClass('fill-user-name', `${user.first_name} ${user.last_name}`);
+    fillWithClass('user-field', user, _updateUserField);
+    fillWithClass('user-field-meta', user, _updateUserMeta);
+
+    // SHOW IF ADMIN
+    [...document.getElementsByClassName('show-if-admin')].forEach(
+        el => {
+            if (user.role === 'administrator') el.classList.remove('d-none')
+            else el.classList.add('d-none')
+        }
+    )
+
+    // ADD ACTIONS
+    document.querySelectorAll('[data-action="logout"]').forEach(element => {
+        element.addEventListener('click', () => {
+            clearCookie('token');
+            window.location.reload();
+        })
+    });
+
+    // Update all fields
+    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+        new mdb.Input(formOutline).init();
+    });
+}
+
 window.addEventListener('load', async () => {
     const token = getCookie('token');
     if (token == null) return;
+
+    // First load the cached user data
+    const userStr = localStorage.getItem('user');
+    if (userStr != null) {
+        user = JSON.parse(userStr);
+        refreshUserDisplay();
+    }
 
     // TODO: Show errors
     // TODO: Show loading indicator
@@ -123,22 +161,8 @@ window.addEventListener('load', async () => {
         if (result.success !== true) return;
         user = result.data;
 
-        // FILL FIELDS
-        fillWithClass('fill-user-name', `${user.first_name} ${user.last_name}`);
-        fillWithClass('user-field', user, _updateUserField);
-        fillWithClass('user-field-meta', user, _updateUserMeta);
+        localStorage.setItem('user', JSON.stringify(user));
 
-        // ADD ACTIONS
-        document.querySelectorAll('[data-action="logout"]').forEach(element => {
-            element.addEventListener('click', () => {
-                clearCookie('token');
-                window.location.reload();
-            })
-        });
-
-        // Update all fields
-        document.querySelectorAll('.form-outline').forEach((formOutline) => {
-            new mdb.Input(formOutline).init();
-        });
+        refreshUserDisplay()
     })
 });
