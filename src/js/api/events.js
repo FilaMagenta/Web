@@ -44,6 +44,7 @@ const _eventsTemplateItem =
     '        <div class="card-body">' +
     '            <h5 class="card-title">{{title}}</h5>' +
     '            <p class="card-text">{{description}}</p>' +
+    '            <button type="button" class="btn btn-secondary me-2" data-translate="action-view"></button>' +
     '            <button type="button" class="btn btn-primary" data-translate="action-register"></button>' +
     '        </div>' +
     '        <div class="card-footer text-muted {{until-display}}">Reservations until {{until}}</div>' +
@@ -55,6 +56,7 @@ const _eventsTemplateRegistered =
     '        <div class="card-body">' +
     '            <h5 class="card-title">{{title}}</h5>' +
     '            <p class="card-text">{{description}}</p>' +
+    '            <button type="button" class="btn btn-secondary me-2" data-translate="action-view"></button>' +
     '            <button type="button" class="btn btn-primary">' +
     '                <i class="fa-solid fa-qrcode me-2"></i>' +
     '                <span data-translate="action-view-qr"></span>' +
@@ -74,39 +76,57 @@ function _parseEventDate(date) {
     return new Date(`${date.substring(0, 4)}/${date.substring(4, 6)}/${date.substring(6, 8)} ${date.substring(8, 10)}:${date.substring(10, 12)}`);
 }
 
+/**
+ * Stores the currently loaded events list.
+ * @type {WooEvent[]}
+ */
+let _events;
+
+function refreshEventsDisplay() {
+    const eventsContainer = document.getElementById('events_list');
+    eventsContainer.innerHTML = '';
+
+    for (/** @type {WooEvent} */ const event of _events) {
+        const until = event.meta_data
+            .find((item) => item.key === 'until')
+            ?.value;
+
+        // TODO: Check if user has signed up to event
+        const html = _eventsTemplateItem
+            .replaceAll('{{title}}', event.name)
+            .replaceAll('{{description}}', event.description)
+            .replaceAll('{{until-display}}', until == null ? 'd-none' : '')
+            .replaceAll('{{until}}', _parseEventDate(until)?.toLocaleString() ?? '');
+        const element = createElement(html);
+        element.id = event.sku;
+        eventsContainer.appendChild(element);
+    }
+
+    refreshScreen();
+}
+
 window.addEventListener('load', async () => {
     const token = getCookie('token');
     if (token == null) return;
 
-    const eventsContainer = document.getElementById('events_list');
+    const eventsStr = localStorage.getItem('events');
+    if (eventsStr != null) {
+        _events = JSON.parse(eventsStr);
+        refreshEventsDisplay();
+    }
 
     // TODO: Show errors
     // TODO: Show loading indicator
     const api = await getApi();
     events_logger.log('Getting events...');
     api?.get('events').then((result) => {
-        const {data} = result;
+        const {/** @type {?WooEvent[]} */ data} = result;
         if (data == null) return;
         events_logger.log(`Got ${data.length} events.`);
 
-        eventsContainer.innerHTML = '';
+        _events = data;
+        localStorage.setItem('events', JSON.stringify(data));
 
-        for (/** @type {WooEvent} */ const event of data) {
-            const until = event.meta_data
-                .find((item) => item.key === 'until')
-                ?.value;
-
-            // TODO: Check if user has signed up to event
-            const html = _eventsTemplateItem
-                .replaceAll('{{title}}', event.name)
-                .replaceAll('{{description}}', event.description)
-                .replaceAll('{{until-display}}', until == null ? 'd-none' : '')
-                .replaceAll('{{until}}', _parseEventDate(until)?.toLocaleString() ?? '');
-            const element = createElement(html);
-            element.id = event.sku;
-            eventsContainer.appendChild(element);
-        }
-
-        refreshScreen();
+        refreshEventsDisplay();
     })
 });
