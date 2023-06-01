@@ -34,6 +34,23 @@
       "src": "/img/icon/icon32.png",
       "sizes": "32x32",
       "type": "image/png"
+    },
+    {
+      "src": "/img/icon/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/img/icon/icon-mask.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/img/icon/icon-monochrome.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable monochrome"
     }
   ]
 }
