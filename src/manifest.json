@@ -7,7 +7,7 @@
   "lang": "en-US",
   "theme_color": "#c71a85",
   "display": "standalone",
-  "background_color": "#fff",
+  "background_color": "#c71a85",
   "prefer_related_applications": "false",
   "icons": [
     {
