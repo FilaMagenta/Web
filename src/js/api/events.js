@@ -193,15 +193,16 @@ function _createReservationTableRow(
     const col4 = document.createElement('td');
     const col4Select = document.createElement('select');
     if (tableOptions == null)
-    _createAndAppendOption(
-        'new',
-        getTranslation(isEditable ? 'event-modal-res-table-same' : 'event-modal-res-table-new'),
-        col4Select
-    );
+        _createAndAppendOption(
+            'new',
+            getTranslation(isEditable ? 'event-modal-res-table-same' : 'event-modal-res-table-new'),
+            col4Select
+        );
     else tableOptions.forEach(
         table => _createAndAppendOption(
             table,
-            table === 'new' ? getTranslation('event-modal-res-table-new') : table,
+            table === 'new' ? getTranslation('event-modal-res-table-new') :
+                table === 'same' ? getTranslation('event-modal-res-table-same') : table,
             col4Select
         )
     )
@@ -325,7 +326,8 @@ function refreshEventsDisplay() {
                             null,
                             ReservationStatus.NOT_PAID,
                             null,
-                            null,
+                            // Replace new by same
+                            eventTables.map(table => table === 'new' ? 'same' : table),
                             true
                         )
                     )
