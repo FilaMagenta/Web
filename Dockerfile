@@ -10,7 +10,7 @@ WORKDIR /home/static
 
 # Copy the static website
 # Use the .dockerignore file to control what ends up inside the image!
-COPY src .
+COPY --chown=static src .
 
 # Update build info
 RUN now=$(date +'%Y%m%d%H%m')
