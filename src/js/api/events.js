@@ -263,6 +263,7 @@ function refreshEventsDisplay() {
 
                     if (key == null && metaKey == null) continue;
 
+                    /** @type {string} */
                     let value = event[key] ?? event.meta_data.find((item) => item.key === metaKey)?.value;
                     let visible = true;
                     if (format === 'date')
@@ -270,6 +271,9 @@ function refreshEventsDisplay() {
                     else if (format === 'display') {
                         visible = value != null;
                         value = '\u0000';
+                    } else if (format === 'positive') {
+                        const num = parseInt(value);
+                        if (num < 0) value = getTranslation('event-modal-guests-all');
                     }
 
                     // Set defaults
