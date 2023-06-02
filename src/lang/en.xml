@@ -63,7 +63,7 @@
     <item name="event-modal-res-status">Status</item>
     <item name="event-modal-res-table">Table</item>
     <item name="event-modal-res-you">You</item>
-    <item name="event-modal-res-table-new">New</item>
+    <item name="event-modal-res-table-new">-- New --</item>
     <item name="event-modal-res-table-same">Same</item>
     <item name="event-modal-res-status-paid">Paid</item>
     <item name="event-modal-res-status-processing">Processing</item>

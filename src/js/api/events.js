@@ -192,11 +192,19 @@ function _createReservationTableRow(
     // Column 4
     const col4 = document.createElement('td');
     const col4Select = document.createElement('select');
+    if (tableOptions == null)
     _createAndAppendOption(
         'new',
         getTranslation(isEditable ? 'event-modal-res-table-same' : 'event-modal-res-table-new'),
         col4Select
     );
+    else tableOptions.forEach(
+        table => _createAndAppendOption(
+            table,
+            table === 'new' ? getTranslation('event-modal-res-table-new') : table,
+            col4Select
+        )
+    )
     col4.appendChild(col4Select);
     row.appendChild(col4);
 
@@ -294,6 +302,7 @@ function refreshEventsDisplay() {
                 /** @type {HTMLTableElement} */
                 const table = document.getElementById('eventModalTable');
                 const tableBody = table.getElementsByTagName('tbody')[0];
+                const eventTables = event.attributes.find(attr => attr.name === 'table')?.options;
                 tableBody.appendChild(
                     _createReservationTableRow(
                         `${user.first_name} ${user.last_name}`,
@@ -301,7 +310,7 @@ function refreshEventsDisplay() {
                         null,
                         ReservationStatus.NOT_CONFIRMED,
                         null,
-                        null
+                        eventTables
                     )
                 );
                 document.getElementById('eventModalTableAdd').addEventListener('click', () => {
