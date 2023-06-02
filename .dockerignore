@@ -1,2 +1,3 @@
 src/.gitignore
-config
+src/config
+src/build
