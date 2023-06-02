@@ -2,6 +2,7 @@
 
 now=$(date +'%Y%m%d%H%m')
 
+rm -rf build
 mkdir -p build
 rm -f build/info.js
 touch build/info.js
