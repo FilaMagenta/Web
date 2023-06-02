@@ -45,7 +45,6 @@ const _eventsTemplateItem =
     '            <h5 class="card-title">{{title}}</h5>' +
     '            <p class="card-text">{{description}}</p>' +
     '            <button type="button" class="btn btn-secondary me-2" data-action="view-event" data-translate="action-view"></button>' +
-    '            <button type="button" class="btn btn-primary" data-translate="action-register"></button>' +
     '        </div>' +
     '        <div class="card-footer text-muted {{until-display}}">Reservations until {{until}}</div>' +
     '    </div>' +
@@ -64,25 +63,6 @@ const _eventsTemplateRegistered =
     '        </div>' +
     '    </div>' +
     '</div>';
-const _eventsModalTemplateRowSelf =
-    '<tr>' +
-    '    <td>' +
-    '        <div class="">' +
-    '            <p class="fw-bold mb-1">John Doe</p>' +
-    '            <p class="text-muted mb-0">john.doe@gmail.com</p>' +
-    '        </div>' +
-    '    </td>' +
-    '    <td>You</td>' +
-    '    <td>' +
-    '        <a class="badge badge-danger rounded-pill d-inline" href="#">Won\'t attend</a>' +
-    '    </td>' +
-    '    <td>' +
-    '        <select>' +
-    '            <option>New</option>' +
-    '            <option>Table 1</option>' +
-    '        </select>' +
-    '    </td>' +
-    '</tr>';
 
 /**
  * Converts the date gotten from an event (formatted yyyyMMddHHmm) to a JS Date.
@@ -102,34 +82,10 @@ function _parseEventDate(date) {
 let _events;
 
 /**
- * Creates a new option node and appends it to the passed select.
- * @param {string} value
- * @param {string} text
- * @param {HTMLSelectElement} target
- * @private
- * @return {HTMLOptionElement}
- */
-function _createAndAppendOption(value, text, target) {
-    const option = document.createElement('option');
-    option.value = value;
-    option.innerText = text;
-    target.appendChild(option);
-    return option;
-}
-
-const ReservationStatus = {
-    NOT_CONFIRMED: 0,
-    NOT_PAID: 1,
-    PROCESSING: 1,
-    PAID: 2,
-}
-
-/**
  * Creates a new row to be inserted in the event modal reservations table.
  * @param {string} name
  * @param {string} relationship
  * @param {?[key:string,name:string][]} relationshipOptions
- * @param {?number} status
  * @param {?string} table
  * @param {?string[]} tableOptions
  * @param {boolean} isEditable
@@ -140,7 +96,6 @@ function _createReservationTableRow(
     name,
     relationship,
     relationshipOptions,
-    status,
     table,
     tableOptions,
     isEditable = false
@@ -149,7 +104,7 @@ function _createReservationTableRow(
     // Column 1
     const col1 = document.createElement('td');
     const col1Text = document.createElement('p');
-    col1Text.classList.add('fw-bold');
+    col1Text.classList.add('fw-bold', 'mb-0');
     col1Text.innerText = name;
     if (isEditable) col1Text.setAttribute('contenteditable', 'true');
     col1.appendChild(col1Text);
@@ -159,47 +114,30 @@ function _createReservationTableRow(
     const col2 = document.createElement('td');
     if (relationshipOptions == null) {
         const col2Text = document.createElement('p');
+        col2Text.classList.add('mb-0');
         col2Text.innerText = relationship;
         if (isEditable) col2Text.setAttribute('contenteditable', 'true');
         col2.appendChild(col2Text);
     } else {
         const col2Options = document.createElement('select');
         for (const [key, value] in relationshipOptions) {
-            _createAndAppendOption(key, value, col2Options);
+            createAndAppendOption(key, value, col2Options);
         }
         col2.appendChild(col2Options);
     }
     row.appendChild(col2);
 
-    // Column 3
-    const col3 = document.createElement('td');
-    switch (status) {
-        case ReservationStatus.PAID:
-            col3.innerHTML = `<span class="badge badge-success rounded-pill d-inline">${getTranslation('event-modal-res-status-paid')}</span>`;
-            break;
-        case ReservationStatus.PROCESSING:
-            col3.innerHTML = `<span class="badge badge-info rounded-pill d-inline">${getTranslation('event-modal-res-status-processing')}</span>`;
-            break;
-        case ReservationStatus.NOT_PAID:
-            col3.innerHTML = `<span class="badge badge-warning rounded-pill d-inline">${getTranslation('event-modal-res-status-not-paid')}</span>`;
-            break;
-        default:
-            col3.innerHTML = `<span class="badge badge-danger rounded-pill d-inline">${getTranslation('event-modal-res-status-default')}</span>`;
-            break;
-    }
-    row.appendChild(col3);
-
     // Column 4
     const col4 = document.createElement('td');
     const col4Select = document.createElement('select');
     if (tableOptions == null)
-        _createAndAppendOption(
+        createAndAppendOption(
             'new',
             getTranslation(isEditable ? 'event-modal-res-table-same' : 'event-modal-res-table-new'),
             col4Select
         );
     else tableOptions.forEach(
-        table => _createAndAppendOption(
+        table => createAndAppendOption(
             table,
             table === 'new' ? getTranslation('event-modal-res-table-new') :
                 table === 'same' ? getTranslation('event-modal-res-table-same') : table,
@@ -218,7 +156,11 @@ function _createReservationTableRow(
         col5Button.setAttribute('data-mdb-toggle', 'tooltip');
         col5Button.setAttribute('title', getTranslation('action-remove'));
         const tooltip = new mdb.Tooltip(col5Button);
-        col5Button.addEventListener('click', () => { tooltip.dispose(); row.remove() });
+        col5Button.addEventListener('click', (event) => {
+            tooltip.dispose();
+            row.remove();
+            event.preventDefault();
+        });
         col5.appendChild(col5Button);
     }
     row.appendChild(col5);
@@ -313,7 +255,6 @@ function refreshEventsDisplay() {
                         `${user.first_name} ${user.last_name}`,
                         getTranslation('event-modal-res-you'),
                         null,
-                        ReservationStatus.NOT_CONFIRMED,
                         null,
                         eventTables
                     )
@@ -324,7 +265,6 @@ function refreshEventsDisplay() {
                             `New User`,
                             'Unknown',
                             null,
-                            ReservationStatus.NOT_PAID,
                             null,
                             // Replace new by same
                             eventTables.map(table => table === 'new' ? 'same' : table),
