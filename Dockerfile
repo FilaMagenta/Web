@@ -13,7 +13,7 @@ WORKDIR /home/static
 COPY src .
 
 COPY scripts/save-build-info.sh ./save-build-info.sh
-RUN ./save-build-info.sh \
+RUN ./save-build-info.sh
 RUN rm ./save-build-info.sh
 
 # Run BusyBox httpd
