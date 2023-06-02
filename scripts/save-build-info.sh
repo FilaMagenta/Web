@@ -1,15 +1,13 @@
-#!/bin/bash
+#!/bin/sh
 
 now=$(date +'%Y%m%d%H%m')
 
-cd src || exit 1
+mkdir -p build
+rm -f build/info.js
+touch build/info.js
 
-mkdir -p config
-rm -f config/info.js
-touch config/info.js
-
-echo 'const buildInfo = {' >> config/info.js
-echo "  buildDate: '$now'," >> config/info.js
-echo "  version: '$version'," >> config/info.js
-echo "  isRelease: $release," >> config/info.js
-echo '};' >> config/info.js
+echo 'const buildInfo = {' >> build/info.js
+echo "  buildDate: '$now'," >> build/info.js
+echo "  version: '$version'," >> build/info.js
+echo "  isRelease: $release," >> build/info.js
+echo '};' >> build/info.js
