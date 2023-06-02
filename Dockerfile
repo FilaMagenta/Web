@@ -13,7 +13,6 @@ WORKDIR /home/static
 COPY src .
 
 COPY scripts/save-build-info.sh ./save-build-info.sh
-RUN chmod +x ./save-build-info.sh
 RUN ./save-build-info.sh \
 RUN rm ./save-build-info.sh
 
