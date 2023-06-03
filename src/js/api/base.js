@@ -140,12 +140,20 @@ class API {
 
     /**
      * Checks whether the remote server is available.
+     * @param {number} tryCount The number of attempts to make pinging the target server.
      * @return {Promise<boolean>}
      */
-    async ping() {
+    async ping(tryCount = 3) {
         try {
-            const result = await this.get('')
-            return result.success === true;
+            let counter = 0;
+            while (counter < tryCount) {
+                const result = await this.get('')
+                if (result.success === true)
+                    return true;
+                api_logger.log('Server not reachable:', result);
+                tryCount++;
+            }
+            return false;
         } catch (e) {
             return false;
         }
@@ -182,7 +190,7 @@ function getApi(timeout = 10_000) {
  * @type {?boolean}
  * @private
  */
-let _serverAvailable = null;
+let _serverAvailable = false;
 
 /** @type {Notification} */
 let _connectionNotification;
@@ -199,7 +207,7 @@ async function checkForConnectionWithApi() {
 
     if (apiAvailable && _connectionNotification)
         await _connectionNotification.hide();
-    else {
+    else if (!apiAvailable) {
         if (_connectionNotification == null || !_connectionNotification.isVisible())
             _connectionNotification = new Notification(
                 getTranslation('notification_connection_lost_title'),
