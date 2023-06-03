@@ -68,5 +68,10 @@
     <item name="event-modal-res-you">You</item>
     <item name="event-modal-res-table-new">-- New --</item>
     <item name="event-modal-res-table-same">-- Same --</item>
+    <item name="event-modal-payment">Payment</item>
+    <item name="event-modal-res-payment-online">Online</item>
+    <item name="event-modal-res-payment-cash">Cash</item>
+    <item name="event-modal-res-payment-cash-warning">If you select the "Pay with cash" method, your reservation won't be effective until someone confirms that you have paid.</item>
+    <item name="event-modal-res-payment-balance">Use Balance (%d €)</item>
 
 </lang>

@@ -297,6 +297,8 @@
                         data-property="innerText" data-default-translate="event-modal-guests-all"></dd>
                 </dl>
 
+                <hr/>
+
                 <h5 data-translate="event-modal-reservation"></h5>
                 <div class="table-responsive">
                     <table class="table align-middle mb-0 bg-white" id="eventModalTable">
@@ -312,6 +314,21 @@
                     </table>
                 </div>
                 <button id="eventModalTableAdd" type="button" class="btn btn-link" data-translate="action-add"></button>
+
+                <h6 class="mt-4" data-translate="event-modal-payment"></h6>
+                <div class="btn-group d-flex">
+                    <input type="radio" class="btn-check flex-fill" name="options" id="payment_option_online" autocomplete="off" checked />
+                    <label class="btn btn-secondary" for="payment_option_online" data-translate="event-modal-res-payment-online"></label>
+
+                    <input type="radio" class="btn-check flex-fill" name="options" id="payment_option_cash" autocomplete="off" />
+                    <label class="btn btn-secondary" for="payment_option_cash" data-translate="event-modal-res-payment-cash"></label>
+                </div>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" value="" id="payment_balance" />
+                    <label class="form-check-label" for="payment_balance" data-translate="event-modal-res-payment-balance"></label>
+                </div>
+                <p class="mt-2 fade" data-translate="event-modal-res-payment-cash-warning" data-source="#payment_option_cash"
+                   data-property="checked" data-format="display" data-listener="change" data-listen-all="true"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-translate="action-register"></button>
