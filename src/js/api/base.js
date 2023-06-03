@@ -95,12 +95,6 @@ class API {
     _token = null;
 
     /**
-     * Checks the connection with the target server.
-     * @return {Promise<string>}
-     */
-    ping() { return httpGet(`${this.server}/${this.version}`); }
-
-    /**
      * Updates the currently stored token.
      * @param {?string} token
      */
@@ -143,6 +137,19 @@ class API {
                 .catch(result => { resolve(JSON.parse(result)) })
         })
     }
+
+    /**
+     * Checks whether the remote server is available.
+     * @return {Promise<boolean>}
+     */
+    async ping() {
+        try {
+            const result = await this.get('')
+            return result.success === true;
+        } catch (e) {
+            return false;
+        }
+    }
 }
 
 /**
@@ -170,18 +177,51 @@ function getApi(timeout = 10_000) {
     }
 }
 
+/**
+ * Stores the last status of the connection check.
+ * @type {?boolean}
+ * @private
+ */
+let _serverAvailable = null;
+
+/** @type {Notification} */
+let _connectionNotification;
+
+async function checkForConnectionWithApi() {
+    const apiAvailable = await api.ping();
+
+    if (apiAvailable && !_serverAvailable)
+        api_logger.log(`Lost connection with server.`);
+    else if (!apiAvailable && _serverAvailable)
+        api_logger.log(`Server is available.`);
+
+    _serverAvailable = apiAvailable;
+
+    if (apiAvailable && _connectionNotification)
+        await _connectionNotification.hide();
+    else {
+        if (_connectionNotification == null || !_connectionNotification.isVisible())
+            _connectionNotification = new Notification(
+                getTranslation('notification_connection_lost_title'),
+                getTranslation('notification_connection_lost_message'),
+                false
+            );
+
+        await _connectionNotification.show();
+    }
+
+    setTimeout(async () => await checkForConnectionWithApi(), 10_000)
+}
+
 window.addEventListener('load', async () => {
     /** @type {string} */
     const server = apiConfig.server;
     try {
-        const target = new API(server);
-        await target.ping();
-        api_logger.log(`Server is available at ${server}!`);
-
+        api = new API(server);
         const token = getCookie('token');
-        target.setToken(token)
+        api.setToken(token)
 
-        api = target;
+        await checkForConnectionWithApi();
     } catch (err) {
         api_logger.error('Remote server is not correctly configured: server', server, 'not available.', err);
         alert('INTERNAL EXCEPTION!');

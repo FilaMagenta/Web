@@ -17,6 +17,10 @@
     <item name="action-add">Add</item>
     <item name="action-remove">Remove</item>
 
+    <!-- Notifications -->
+    <item name="notification_connection_lost_title">Lost connection</item>
+    <item name="notification_connection_lost_message">The server is not available, please check your internet connection.</item>
+
     <!-- GENERIC TEXT -->
     <item name="status-not-set">Not set</item>
 
