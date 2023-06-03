@@ -17,4 +17,20 @@ window.addEventListener('load', function () {
         .forEach((tab, index) => {
             tab.addEventListener('click', () => sessionStorage.setItem('tab_index', index.toString()))
         })
+
+    // BUILD INFO
+    const isRelease = buildInfo.isRelease;
+    // d-dev only shows on development builds
+    for (let element of document.getElementsByClassName('d-dev'))
+        if (isRelease) element.classList.add('d-none')
+    // Fill build information
+    for (let element of document.querySelectorAll('[data-source="build"]')) {
+        const property = element.getAttribute('data-property');
+        element.classList.remove('d-none');
+        if (property == null || !buildInfo.hasOwnProperty(property)) {
+            element.classList.add('d-none');
+            continue;
+        }
+        element.innerText = buildInfo[property];
+    }
 });
