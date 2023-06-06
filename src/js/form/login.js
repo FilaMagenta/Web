@@ -11,15 +11,6 @@ const LOGIN_ERROR_WRONG_PASSWORD = 42;
 window.addEventListener('load', function () {
     /** @type {HTMLInputElement} */
     const dniField = document.getElementById('login_dni');
-    dniField.addEventListener('input', () => {
-        const text = dniField.value;
-        dniField.classList.remove('is-invalid', 'is-valid')
-        if (!validateDni(text))
-            dniField.classList.add('is-invalid');
-        else
-            dniField.classList.add('is-valid');
-    });
-
     /** @type {HTMLInputElement} */
     const passwordField = document.getElementById('login_password');
     /** @type {HTMLButtonElement} */

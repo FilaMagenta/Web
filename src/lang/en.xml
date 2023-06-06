@@ -33,6 +33,20 @@
     <item name="login-error-password">Wrong password</item>
     <item name="login-error-not-found">User not found</item>
 
+    <!-- REGISTRATION -->
+    <item name="register-title">Register</item>
+    <item name="register-dni">DNI</item>
+    <item name="register-password">Password</item>
+    <item name="register-password-confirm">Confirm Password</item>
+    <item name="register-name">Name</item>
+    <item name="register-surname">Surname</item>
+    <item name="register-email">Email</item>
+    <item name="register-action">Register</item>
+    <item name="register-error-empty">Must not be empty</item>
+    <item name="register-error-dni">Please, introduce a valid DNI.</item>
+    <item name="register-error-email">A valid email is required.</item>
+    <item name="register-error-password-match">Passwords must match</item>
+
     <!-- MAIN TOOLBAR -->
     <item name="nav-events">Events</item>
     <item name="nav-news">News</item>

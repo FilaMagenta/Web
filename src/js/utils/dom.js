@@ -23,3 +23,32 @@ function createAndAppendOption(value, text, target) {
     target.appendChild(option);
     return option;
 }
+
+/**
+ * @callback ElementValidator
+ * @template ElementType
+ * @param {ElementType} element
+ * @return {boolean}
+ */
+
+/**
+ * Finds for a parent of the element that confirms validator.
+ * @param {HTMLElement} element
+ * @param {ElementValidator<HTMLElement>} validator
+ * @return {?HTMLElement}
+ */
+function findParent(element, validator) {
+    const parent = element.parentElement;
+    if (parent == null) return null;
+    if (validator(parent))
+        return parent;
+    else
+        return findParent(parent, validator);
+}
+
+/**
+ * Selects an element in the DOM with the given id.
+ * @param {string} id
+ * @return {HTMLElement}
+ */
+function $id(id) { return document.getElementById(id); }

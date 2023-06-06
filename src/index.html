@@ -52,12 +52,12 @@
 </head>
 <body>
 
-<div class="d-flex align-items-center justify-content-center container d-none" id="login_panel" style="height: 100vh;">
+<div class="d-flex align-items-center justify-content-center container d-none fade" id="login_panel" style="height: 100vh;">
     <div class="card text-center">
         <form class="card-body needs-validation" id="login_form" novalidate>
             <h3 class="card-title" data-translate="login-title"></h3>
             <div class="form-outline mt-4">
-                <input type="text" id="login_dni" class="form-control"/>
+                <input type="text" id="login_dni" class="form-control" data-validate="dni" />
                 <label class="form-label" for="login_dni" data-translate="login-dni"></label>
                 <div class="invalid-feedback" data-translate="login-error-dni"></div>
             </div>
@@ -65,12 +65,70 @@
                 <input type="password" id="login_password" class="form-control"/>
                 <label class="form-label" for="login_password" data-translate="login-password"></label>
             </div>
-            <button type="submit" class="btn btn-primary btn-block mb-4" id="login_button">
+            <button type="submit" class="btn btn-primary btn-block mb-2" id="login_button">
                 <span class="spinner-border spinner-border-sm me-2 d-none" id="login_button_spinner" role="status"
                       aria-hidden="true"></span>
                 <span data-translate="login-action"></span>
             </button>
+            <button type="button" class="btn btn-outline-primary btn-block mb-4" id="register_change_button" data-translate="register-action"></button>
             <p class="text">When logging in you are accepting our privacy policy, and our cookies policy.</p>
+        </form>
+    </div>
+</div>
+
+<div class="d-flex align-items-center justify-content-center container d-none fade" id="register_panel" style="height: 100vh;">
+    <div class="card text-center">
+        <form class="card-body needs-validation" id="register_form" data-submit="#register_button" novalidate>
+            <h3 class="card-title" data-translate="register-title"></h3>
+            <div class="form-outline mt-4">
+                <input type="text" id="register_dni" class="form-control" tabindex="1" data-validate="dni" />
+                <label class="form-label" for="register_dni" data-translate="register-dni"></label>
+                <div class="invalid-feedback" data-translate="register-error-dni"></div>
+            </div>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="register_name" class="form-control" tabindex="2" data-validate="empty" />
+                        <label class="form-label" for="register_name" data-translate="register-name"></label>
+                        <div class="invalid-feedback" data-translate="register-error-empty"></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="register_surname" class="form-control" tabindex="3" data-validate="empty" />
+                        <label class="form-label" for="register_surname" data-translate="register-surname"></label>
+                        <div class="invalid-feedback" data-translate="register-error-empty"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-outline mt-4">
+                <input type="email" id="register_email" class="form-control" tabindex="4" data-validate="email" />
+                <label class="form-label" for="register_email" data-translate="register-email"></label>
+                <div class="invalid-feedback" data-translate="register-error-email"></div>
+            </div>
+            <div class="row my-4">
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="register_password" class="form-control" tabindex="5" data-validate="empty" />
+                        <label class="form-label" for="register_password" data-translate="register-password"></label>
+                        <div class="invalid-feedback" data-translate="register-error-empty"></div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="register_password_repeat" class="form-control" tabindex="6"
+                               data-validate="value" data-source="#register_password" required />
+                        <label class="form-label" for="register_password_repeat" data-translate="register-password-confirm"></label>
+                        <div class="invalid-feedback" data-translate="register-error-password-match"></div>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block mb-4" id="register_button" tabindex="7" disabled>
+                <span class="spinner-border spinner-border-sm me-2 d-none" id="register_button_spinner" role="status"
+                      aria-hidden="true"></span>
+                <span data-translate="register-action"></span>
+            </button>
+            <button type="button" class="btn btn-outline-primary btn-block mb-4" id="login_change_button" data-translate="login-action"></button>
         </form>
     </div>
 </div>
@@ -381,6 +439,7 @@
 <script type="text/javascript" src="js/utils/notifications.js"></script>
 <script type="text/javascript" src="js/utils/cookies.js"></script>
 <script type="text/javascript" src="js/utils/countries.js"></script>
+<script type="text/javascript" src="js/utils/flow.js"></script>
 
 <!-- Validation -->
 <script type="text/javascript" src="js/validation/dni.js"></script>
@@ -398,7 +457,9 @@
 <script type="text/javascript" src="js/worker/base.js"></script>
 
 <!-- Form validation -->
+<script type="text/javascript" src="js/form/validators.js"></script>
 <script type="text/javascript" src="js/form/login.js"></script>
+<script type="text/javascript" src="js/form/register.js"></script>
 
 <script type="text/javascript"
         src="js/bluetooth.js"
