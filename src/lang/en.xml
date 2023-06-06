@@ -31,6 +31,7 @@
     <item name="login-action">Login</item>
     <item name="login-error-dni">Please, introduce a valid DNI.</item>
     <item name="login-error-password">Wrong password</item>
+    <item name="login-error-not-found">User not found</item>
 
     <!-- MAIN TOOLBAR -->
     <item name="nav-events">Events</item>

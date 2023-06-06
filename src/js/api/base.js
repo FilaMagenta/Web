@@ -129,7 +129,8 @@ class API {
      */
     post(endpoint, data) {
         /** @type {Map<string, string>} */ const headers = new Map();
-        headers.set('Authorization', `Bearer ${this._token}`);
+        if (this._token != null)
+            headers.set('Authorization', `Bearer ${this._token}`);
 
         return new Promise((resolve) => {
             httpPost(`${this.server}/${this.version}/${endpoint}`, data, headers)

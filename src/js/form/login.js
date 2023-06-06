@@ -5,7 +5,8 @@
 
 const login_logger = new Logger('login', '#17d937')
 
-const LOGIN_ERROR_WRONG_PASSWORD = 56;
+const LOGIN_ERROR_NOT_FOUND = 41;
+const LOGIN_ERROR_WRONG_PASSWORD = 42;
 
 window.addEventListener('load', function () {
     /** @type {HTMLInputElement} */
@@ -48,13 +49,16 @@ window.addEventListener('load', function () {
             login_logger.log(`Logging in as ${dni}...`);
             const result = await login(dni, password);
             if (result.success !== true || !result.hasOwnProperty('data')) {
-                const errorCode = result.error_code;
+                const errorCode = result.code;
                 switch (errorCode) {
+                    case LOGIN_ERROR_NOT_FOUND:
+                        showSnackbar(getTranslation('login-error-not-found'));
+                        break;
                     case LOGIN_ERROR_WRONG_PASSWORD:
                         showSnackbar(getTranslation('login-error-password'));
                         break;
                     default:
-                        login_logger.error(`Could not log in. Error (${result.error_code}): ${result.error_message}`);
+                        login_logger.error(`Could not log in. Error (${result.code}): ${result.message}`);
                         break;
                 }
                 return;
