@@ -1,43 +1,5 @@
 const events_logger = new Logger('events', '#bde314')
 
-/** @typedef {object} WooEvent
- * @property {number} id
- * @property {string} name
- * @property {string} slug
- * @property {string} permalink
- * @property {string} date_created
- * @property {string} date_created_gmt
- * @property {string} date_modified
- * @property {string} date_modified_gmt
- * @property {string} type
- * @property {string} status
- * @property {string} description
- * @property {string} short_description
- * @property {string} sku
- * @property {string} price
- * @property {string} regular_price
- * @property {boolean} purchasable
- * @property {number} total_sales
- * @property {boolean} virtual
- * @property {boolean} downloadable
- * @property {[]} downloads
- * @property {number} download_limit
- * @property {number} download_expiry
- * @property {boolean} manage_stock
- * @property {null} stock_quantity
- * @property {string} stock_status
- * @property {[]} attributes
- * @property {[]} default_attributes
- * @property {[]} variations
- * @property {[]} grouped_products
- * @property {[]} meta_data
- * @property {object} _links
- * @property {object[]} _links.self
- * @property {string} _links.self.href
- * @property {object[]} _links.collection
- * @property {string} _links.collection.href
- */
-
 const _eventsTemplateItem =
     '<div class="col-12 col-md-6 px-2 my-2">' +
     '    <div class="card">' +
@@ -65,6 +27,25 @@ const _eventsTemplateRegistered =
     '</div>';
 
 /**
+ * @typedef {Object} EventTable
+ * @property {number} id The id of the table in the database.
+ * @property {number} responsible_id The id of the responsible user for the table.
+ * @property {number[]} members A list of the user ids of all the members in the table.
+ */
+
+/**
+ * @typedef {Object} Event
+ * @property {number} id
+ * @property {string} name
+ * @property {string} description
+ * @property {string} date
+ * @property {?string} until
+ * @property {?string} reservations
+ * @property {boolean} assists
+ * @property {EventTable[]} tables
+ */
+
+/**
  * Converts the date gotten from an event (formatted yyyyMMddHHmm) to a JS Date.
  * @private
  * @param {?string} date
@@ -77,7 +58,7 @@ function _parseEventDate(date) {
 
 /**
  * Stores the currently loaded events list.
- * @type {WooEvent[]}
+ * @type {Event[]}
  */
 let _events;
 
@@ -177,10 +158,8 @@ function refreshEventsDisplay() {
     /** @type {HTMLDivElement} */
     const eventModalName = document.getElementById('eventModalLabel');
 
-    for (/** @type {WooEvent} */ const event of _events) {
-        const until = event.meta_data
-            .find((item) => item.key === 'until')
-            ?.value;
+    for (/** @type {Event} */ const event of _events) {
+        const until = event.until;
 
         // TODO: Check if user has signed up to event
         const html = _eventsTemplateItem
@@ -189,7 +168,7 @@ function refreshEventsDisplay() {
             .replaceAll('{{until-display}}', until == null ? 'd-none' : '')
             .replaceAll('{{until}}', _parseEventDate(until)?.toLocaleString() ?? '');
         const element = createElement(html);
-        element.id = event.sku;
+        element.id = 'event-' + event.id.toString(16);
         element.querySelectorAll('[data-action="view-event"]').forEach((element) => {
             element.addEventListener('click', () => {
                 // Fill all fields
@@ -207,7 +186,7 @@ function refreshEventsDisplay() {
                     if (key == null && metaKey == null) continue;
 
                     /** @type {string} */
-                    let value = event[key] ?? event.meta_data.find((item) => item.key === metaKey)?.value;
+                    let value = event[key];
                     let visible = true;
                     if (format === 'date')
                         value = _parseEventDate(value)?.toLocaleString();
@@ -296,12 +275,13 @@ window.addEventListener('load', async () => {
     const api = await getApi();
     events_logger.log('Getting events...');
     api?.get('events').then((result) => {
-        const {/** @type {?WooEvent[]} */ data} = result;
+        const {/** @type {?Object} */ data} = result;
         if (data == null) return;
-        events_logger.log(`Got ${data.length} events.`);
+        const {/** @type {?Object[]} */ events } = data;
+        events_logger.log(`Got ${events.length} events`);
 
-        _events = data;
-        localStorage.setItem('events', JSON.stringify(data));
+        _events = events;
+        localStorage.setItem('events', JSON.stringify(events));
 
         refreshEventsDisplay();
     })
