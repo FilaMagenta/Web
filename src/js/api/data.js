@@ -1,62 +1,19 @@
-/**
- * @typedef {'administrator','editor','author','contributor','subscriber','customer','shop_manager'} UserRole
- */
-
-/**
- * @typedef {Object} MetaData
- * @property {number} id
- * @property {string} key
- * @property {string} value
- */
-
-/** @typedef {object} UserData
- * @property {number} id
- * @property {string} date_created
- * @property {string} date_created_gmt
- * @property {string} date_modified
- * @property {string} date_modified_gmt
- * @property {string} email
- * @property {string} first_name
- * @property {string} last_name
- * @property {UserRole} role
- * @property {string} username
- * @property {object} billing
- * @property {string} billing.first_name
- * @property {string} billing.last_name
- * @property {string} billing.company
- * @property {string} billing.address_1
- * @property {string} billing.address_2
- * @property {string} billing.city
- * @property {string} billing.state
- * @property {string} billing.postcode
- * @property {string} billing.country
- * @property {string} billing.email
- * @property {string} billing.phone
- * @property {object} shipping
- * @property {string} shipping.first_name
- * @property {string} shipping.last_name
- * @property {string} shipping.company
- * @property {string} shipping.address_1
- * @property {string} shipping.address_2
- * @property {string} shipping.city
- * @property {string} shipping.state
- * @property {string} shipping.postcode
- * @property {string} shipping.country
- * @property {boolean} is_paying_customer
- * @property {string} avatar_url
- * @property {MetaData[]} meta_data
- * @property {object} _links
- * @property {object[]} _links.self
- * @property {string} _links.self.href
- * @property {object[]} _links.collection
- * @property {string} _links.collection.href
- */
+const dataLogger = new Logger('data', '#d91b1b')
 
 /**
  * @callback PropertyFiller
  * @template ValueType
  * @param {Element} element
  * @param {ValueType} value
+ */
+
+/**
+ * @typedef {Object} User
+ * @property {'DEFAULT','ADMIN'} role
+ * @property {string} name
+ * @property {string} surname
+ * @property {string} nif
+ * @property {string} email
  */
 
 /**
@@ -74,22 +31,9 @@ function fillWithClass(className, value, setter = (element, value) => { element.
 }
 
 /**
- * @type {?UserData}
+ * @type {?User}
  */
 let user;
-
-/**
- * Fetches the value of the meta with the given key of user. Must be initialized before.
- * @param {string} key The key of the metadata to get.
- * @param {UserData} user The user to get the data from.
- * @return {?string}
- * @see user
- */
-function getUserMeta(key, user = user) {
-    /** @type {?MetaData} */
-    const meta = user?.meta_data?.find((metaData) => metaData.key === key);
-    return meta?.value;
-}
 
 
 /**
@@ -102,22 +46,12 @@ const _updateUserField = (element, value) => {
 }
 
 /**
- * @private
- * @type {PropertyFiller<Object>}
- */
-const _updateUserMeta = (element, value) => {
-    const key = element.getAttribute('data-meta');
-    element.value = getUserMeta(key, value) ?? getTranslation('status-not-set');
-}
-
-/**
  * Updates all the fields with the value of user.
  */
 function refreshUserDisplay() {
     // FILL FIELDS
-    fillWithClass('fill-user-name', `${user.first_name} ${user.last_name}`);
+    fillWithClass('fill-user-name', `${user.name} ${user.surname}`);
     fillWithClass('user-field', user, _updateUserField);
-    fillWithClass('user-field-meta', user, _updateUserMeta);
 
     // SHOW IF ADMIN
     [...document.getElementsByClassName('show-if-admin')].forEach(
@@ -155,8 +89,8 @@ window.addEventListener('load', async () => {
     // TODO: Show errors
     // TODO: Show loading indicator
     const api = await getApi();
-    console.log('Getting account data...');
-    api?.get('account').then((result) => {
+    dataLogger.log('Getting account data...');
+    api?.get('profile').then((result) => {
         // If not successful, return
         if (result.success !== true) return;
         user = result.data;
