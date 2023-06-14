@@ -13,7 +13,7 @@ In any case, inside this directory, the files required are:
 
 const apiConfig = {
     // Where the backend (https://github.com/FilaMagenta/BackendKotlin) is running at
-    server: 'http://localhost:3000'
+    server: 'http://localhost:8080'
 };
 ```
 
