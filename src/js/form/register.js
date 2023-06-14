@@ -52,9 +52,10 @@ window.addEventListener('load', () => {
             registerButtonSpinner.classList.remove('d-none');
 
             const result = await register(dniField.value, nameField.value, surnameField.value, emailField.value, passwordField.value);
-            if (result.success)
+            if (result.success) {
+                showSnackbar(getTranslation("register-success"));
                 await changeAuthPage(true);
-            else
+            } else
                 showSnackbar(result.error_message);
         } finally {
             registerButton.disabled = false;

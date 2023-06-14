@@ -50,6 +50,7 @@
     <item name="register-error-dni">Please, introduce a valid DNI.</item>
     <item name="register-error-email">A valid email is required.</item>
     <item name="register-error-password-match">Passwords must match</item>
+    <item name="register-success">Registered successfully, please, log in</item>
 
     <!-- MAIN TOOLBAR -->
     <item name="nav-events">Events</item>
