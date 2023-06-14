@@ -42,6 +42,7 @@ const _eventsTemplateRegistered =
  * @property {?string} until
  * @property {?string} reservations
  * @property {boolean} assists
+ * @property {number} max_guests
  * @property {EventTable[]} tables
  */
 
@@ -68,7 +69,7 @@ let _events;
  * @param {string} relationship
  * @param {?[key:string,name:string][]} relationshipOptions
  * @param {?string} table
- * @param {?string[]} tableOptions
+ * @param {?string[]} tableOptions Existing table names
  * @param {boolean} isEditable
  * @return {HTMLTableRowElement}
  * @private
@@ -228,14 +229,14 @@ function refreshEventsDisplay() {
                 /** @type {HTMLTableElement} */
                 const table = document.getElementById('eventModalTable');
                 const tableBody = table.getElementsByTagName('tbody')[0];
-                const eventTables = event.attributes.find(attr => attr.name === 'table')?.options;
+                const eventTables = event.tables;
                 tableBody.appendChild(
                     _createReservationTableRow(
-                        `${user.first_name} ${user.last_name}`,
+                        `${user.name} ${user.surname}`,
                         getTranslation('event-modal-res-you'),
                         null,
                         null,
-                        eventTables
+                        eventTables.map(el => el.responsible_id.toString())
                     )
                 );
                 document.getElementById('eventModalTableAdd').addEventListener('click', () => {

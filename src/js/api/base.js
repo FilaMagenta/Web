@@ -1,11 +1,13 @@
 const api_logger = new Logger('api', '#e1d00e');
 
+const ERROR_CODE_USER_NOT_FOUND = 41;
+
 /**
  * Performs an HTTP GET request to the desired URL.
  * @private
  * @param {string} url
  * @param {?Map<string, string>} headers
- * @return {Promise<string>}
+ * @return {Promise<Result>}
  */
 function httpGet(url, headers = null) {
     const http = new XMLHttpRequest();
@@ -15,16 +17,20 @@ function httpGet(url, headers = null) {
             http.setRequestHeader(key, value);
         })
 
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         http.onreadystatechange = () => {
             // Wait until complete
-            if (http.readyState !== 4 || http.status !== 200) return;
+            if (http.readyState !== 4) return;
 
-            resolve(http.responseText)
+            resolve(JSON.parse(http.responseText))
         };
-        http.onerror = () => { reject(new Error(`Error ${http.status}: ${http.statusText}`)); };
+        http.onerror = () => { resolve({success: false, http_code: http.status}); };
         api_logger.log('Running GET request to', url);
-        http.send();
+        try {
+            http.send();
+        } catch (e) {
+            http.onerror = () => { resolve({success: false, exception: e}); };
+        }
     });
 }
 
@@ -104,6 +110,8 @@ class API {
      * @typedef {Object} Result
      * @property {boolean} success
      * @property {?Object} data
+     * @property {?number} code Error code if any
+     * @property {?string} message Error message if any
      */
 
     /**
@@ -117,7 +125,13 @@ class API {
         headers.set('Authorization', `Bearer ${this._token}`);
 
         const result = await httpGet(`${this.server}/${this.version}/${endpoint}`, headers);
-        return JSON.parse(result);
+        if (result.code === ERROR_CODE_USER_NOT_FOUND) {
+            api_logger.warn('Logged user not found, should log in back again.');
+            clearCookie('token');
+            window.location.reload();
+            return null;
+        }
+        return result;
     }
 
     /**

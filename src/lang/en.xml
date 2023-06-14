@@ -107,6 +107,8 @@
     <item name="new-event-modal-until-help">Can be left empty, determines the duration of the event.</item>
     <item name="new-event-modal-reservations">Reservations Until</item>
     <item name="new-event-modal-reservations-help">When's the last moment when reservations can be made.</item>
+    <item name="new-event-modal-max-guests">Max Guests</item>
+    <item name="new-event-modal-max-guests-help">Tick the checkbox for unlimited guests. Otherwise specify an amount.</item>
     <item name="new-event-modal-success">Event created!</item>
     <item name="new-event-modal-error-unknown">Could not create event</item>
 

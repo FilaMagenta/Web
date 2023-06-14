@@ -301,15 +301,26 @@
                     <label class="form-label" for="new_event_description" data-translate="new-event-modal-description"></label>
                 </div>
 
-                <div class="form-outline mb-4">
+                <div class="form-outline mb-5">
                     <input type="datetime-local" id="new_event_until" class="form-control" />
                     <label class="form-label" for="new_event_until" data-translate="new-event-modal-until"></label>
                     <div class="form-helper" data-translate="new-event-modal-until-help"></div>
                 </div>
 
-                <div class="form-outline mb-4">
+                <div class="form-outline mb-5">
                     <input type="datetime-local" id="new_event_reservations" class="form-control" />
                     <label class="form-label" for="new_event_reservations" data-translate="new-event-modal-reservations"></label>
+                    <div class="form-helper" data-translate="new-event-modal-reservations-help"></div>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <label class="form-label" for="new_event_max_guests" data-translate="new-event-modal-max-guests"></label>
+                    <div class="input-group">
+                        <div class="input-group-text">
+                            <input class="form-check-input mt-0" type="checkbox" value="" aria-label="Maximum Guests unlimited" />
+                        </div>
+                        <input type="text" class="form-control" id="new_event_max_guests" aria-label="Maximum guests" />
+                    </div>
                     <div class="form-helper" data-translate="new-event-modal-reservations-help"></div>
                 </div>
             </div>
