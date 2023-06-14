@@ -260,6 +260,79 @@ function refreshEventsDisplay() {
     refreshScreen();
 }
 
+class EventData {
+    /** @type {string} */
+    name;
+
+    /** @type {string} */
+    description;
+
+    /** @type {Date} */
+    date;
+
+    /** @type {?Date} */
+    until;
+
+    /** @type {?Date} */
+    reservations;
+
+    /**
+     * Initializes a new EventData instance.
+     * @param {string} name
+     * @param {string} description
+     * @param {Date} date
+     * @param {?Date} until
+     * @param {?Date} reservations
+     */
+    constructor(name, description, date, until, reservations) {
+        this.name = name;
+        this.description = description;
+        this.date = date;
+        this.until = until;
+        this.reservations = reservations;
+    }
+
+    /**
+     * Requests the backend to create the event.
+     * @returns {Promise<Result>}
+     */
+    async create() {
+        events_logger.log('Event creation requested. Getting API...');
+        const api = await getApi();
+        events_logger.log('API ready, building request and sending...');
+        const data = {
+            name: this.name,
+            description: this.description,
+            date: this.date.toISOString(),
+            until: this.until?.toISOString(),
+            reservations: this.reservations?.toISOString()
+        };
+        return await api.post('events', data);
+    }
+}
+
+let newEventModal;
+
+/**
+ * Loads all events from the backend, and displays them.
+ * @returns {Promise<void>}
+ */
+async function loadAndDisplayEvents() {
+    const api = await getApi();
+    events_logger.log('Getting events...');
+    api?.get('events').then((result) => {
+        const {/** @type {?Object} */ data} = result;
+        if (data == null) return;
+        const {/** @type {?Object[]} */ events} = data;
+        events_logger.log(`Got ${events.length} events`);
+
+        _events = events;
+        localStorage.setItem('events', JSON.stringify(events));
+
+        refreshEventsDisplay();
+    })
+}
+
 window.addEventListener('load', async () => {
     const token = getCookie('token');
     if (token == null) return;
@@ -270,19 +343,55 @@ window.addEventListener('load', async () => {
         refreshEventsDisplay();
     }
 
+    // Initialize the new event modal, and its launch button
+    newEventModal = new mdb.Modal($id('newEventModal'));
+    $id('create_event').addEventListener('click', () => {
+        newEventModal.show();
+    });
+
+    // Add the listener for creating new events
+    const newEventForm = $id('new_event_form');
+    newEventForm.addEventListener('submit', async (ev) => {
+        events_logger.log('Creating new event...');
+        ev.preventDefault();
+        ev.stopPropagation();
+
+        /** @type {HTMLInputElement} */ const nameField = $id('new_event_name');
+        /** @type {HTMLInputElement} */ const dateField = $id('new_event_date');
+        /** @type {HTMLTextAreaElement} */ const descriptionField = $id('new_event_description');
+        /** @type {HTMLInputElement} */ const untilField = $id('new_event_until');
+        /** @type {HTMLInputElement} */ const reservationsField = $id('new_event_reservations');
+
+        const name = nameField.value;
+        const dateRaw = dateField.value;
+        const description = descriptionField.value;
+        const untilRaw = untilField.value;
+        const reservationsRaw = reservationsField.value;
+
+        if (name.length <= 0) nameField.classList.add('is-invalid');
+        if (dateRaw.length <= 0) dateField.classList.add('is-invalid');
+        if (newEventForm.getElementsByClassName('is-invalid').length > 0) return;
+
+        const event = new EventData(
+            name,
+            description,
+            new Date(dateRaw),
+            untilRaw.length > 0 ? new Date(untilRaw) : null,
+            reservationsRaw.length > 0 ? new Date(reservationsRaw) : null,
+        );
+        const result = await event.create();
+        if (result.success) {
+            events_logger.log('Event created!');
+            showSnackbar(getTranslation('new-event-modal-success'));
+            newEventModal.hide();
+            await loadAndDisplayEvents();
+        } else {
+            events_logger.error(`Could not create event: ${JSON.stringify(result)}`);
+            showSnackbar(getTranslation('new-event-modal-error-unknown'));
+        }
+    });
+
     // TODO: Show errors
     // TODO: Show loading indicator
-    const api = await getApi();
-    events_logger.log('Getting events...');
-    api?.get('events').then((result) => {
-        const {/** @type {?Object} */ data} = result;
-        if (data == null) return;
-        const {/** @type {?Object[]} */ events } = data;
-        events_logger.log(`Got ${events.length} events`);
-
-        _events = events;
-        localStorage.setItem('events', JSON.stringify(events));
-
-        refreshEventsDisplay();
-    })
+    await loadAndDisplayEvents();
 });

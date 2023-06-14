@@ -56,7 +56,7 @@ function refreshUserDisplay() {
     // SHOW IF ADMIN
     [...document.getElementsByClassName('show-if-admin')].forEach(
         el => {
-            if (user.role === 'administrator') el.classList.remove('d-none')
+            if (user.role === 'ADMIN') el.classList.remove('d-none')
             else el.classList.add('d-none')
         }
     )

@@ -20,6 +20,7 @@
     <item name="action-close">Close</item>
     <item name="action-add">Add</item>
     <item name="action-remove">Remove</item>
+    <item name="action-create">Create</item>
 
     <!-- Notifications -->
     <item name="notification_connection_lost_title">Lost connection</item>
@@ -74,6 +75,9 @@
     <item name="profile-country">Country</item>
     <item name="profile-role-admin">Admin</item>
 
+    <!-- EVENTS LIST -->
+    <item name="events-action-new">New Event</item>
+
     <!-- EVENT MODAL -->
     <item name="event-modal-description">Description</item>
     <item name="event-modal-more">More Information</item>
@@ -93,5 +97,17 @@
     <item name="event-modal-res-payment-cash">Cash</item>
     <item name="event-modal-res-payment-cash-warning">If you select the "Pay with cash" method, your reservation won't be effective until someone confirms that you have paid.</item>
     <item name="event-modal-res-payment-balance">Use Balance (%d €)</item>
+
+    <!-- NEW EVENT MODAL -->
+    <item name="new-event-modal-title">Create Event</item>
+    <item name="new-event-modal-name">Event Name *</item>
+    <item name="new-event-modal-date">Event Date *</item>
+    <item name="new-event-modal-description">Event Description</item>
+    <item name="new-event-modal-until">Event End</item>
+    <item name="new-event-modal-until-help">Can be left empty, determines the duration of the event.</item>
+    <item name="new-event-modal-reservations">Reservations Until</item>
+    <item name="new-event-modal-reservations-help">When's the last moment when reservations can be made.</item>
+    <item name="new-event-modal-success">Event created!</item>
+    <item name="new-event-modal-error-unknown">Could not create event</item>
 
 </lang>

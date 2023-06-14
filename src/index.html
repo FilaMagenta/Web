@@ -176,6 +176,10 @@
              role="tabpanel"
              aria-labelledby="tab_events"
         >
+            <div class="row">
+                <button class="btn btn-outline-primary show-if-admin" id="create_event" data-translate="events-action-new"></button>
+            </div>
+
             <div class="row" id="events_list">
                 <div class="spinner-border" role="status">
                     <span class="visually-hidden">Loading...</span>
@@ -271,6 +275,51 @@
         </div>
     </div>
     <!-- Pills content -->
+</div>
+
+<!-- Create Event Modal -->
+<div class="modal fade" id="newEventModal" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-md-down">
+        <form class="modal-content needs-validation" id="new_event_form" novalidate>
+            <div class="modal-header">
+                <h5 class="modal-title" id="newEventModalLabel" data-translate="new-event-modal-title"></h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body mx-0 mx-md-3 mx-lg-5 my-3">
+                <div class="form-outline mb-4">
+                    <input type="text" id="new_event_name" class="form-control" required />
+                    <label class="form-label" for="new_event_name" data-translate="new-event-modal-name"></label>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="datetime-local" id="new_event_date" class="form-control" required />
+                    <label class="form-label" for="new_event_date" data-translate="new-event-modal-date"></label>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <textarea class="form-control" id="new_event_description" rows="4"></textarea>
+                    <label class="form-label" for="new_event_description" data-translate="new-event-modal-description"></label>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="datetime-local" id="new_event_until" class="form-control" />
+                    <label class="form-label" for="new_event_until" data-translate="new-event-modal-until"></label>
+                    <div class="form-helper" data-translate="new-event-modal-until-help"></div>
+                </div>
+
+                <div class="form-outline mb-4">
+                    <input type="datetime-local" id="new_event_reservations" class="form-control" />
+                    <label class="form-label" for="new_event_reservations" data-translate="new-event-modal-reservations"></label>
+                    <div class="form-helper" data-translate="new-event-modal-reservations-help"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" data-translate="action-close"></button>
+
+                <button type="submit" class="btn btn-outline-primary" data-translate="action-create" id="new_event_button"></button>
+            </div>
+        </form>
+    </div>
 </div>
 
 <!-- Event Modal -->

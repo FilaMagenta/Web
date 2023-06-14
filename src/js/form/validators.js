@@ -56,4 +56,14 @@ window.addEventListener('load', () => {
     });
     _validate('empty', (_, value) => value.trim() !== '');
     _validate('email', (_, value) => _EmailRegex.test(value));
+
+    // Add listeners for all forms needing validation: when value changes, remove validation state
+    for (let form of document.getElementsByClassName('needs-validation')) {
+        const fields = form.getElementsByTagName('input');
+        for (const field of fields) {
+            field.addEventListener('input', () => {
+                field.classList.remove('is-valid', 'is-invalid');
+            });
+        }
+    }
 })
