@@ -7,6 +7,10 @@
     <!-- FOOTER TEXT -->
     <item name="footer">Made by ArnyminerZ for Filà Magenta</item>
 
+    <!-- CRITICAL ERRORS -->
+    <item name="notification_critical_api_config_title">apiConfig not found</item>
+    <item name="notification_critical_api_config_message">The website cannot function without an apiConfig. Please, contact an administrator</item>
+
     <!-- GENERIC ACTIONS -->
     <item name="action-logout">Logout</item>
     <item name="action-view-qr">View QR</item>

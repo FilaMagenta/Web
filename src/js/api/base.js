@@ -223,6 +223,17 @@ async function checkForConnectionWithApi() {
 }
 
 window.addEventListener('load', async () => {
+    if (typeof apiConfig === 'undefined' || apiConfig == null) {
+        api_logger.error(`No apiConfig was found. App won't work.`);
+        const notification = new Notification(
+            getTranslation('notification_critical_api_config_title'),
+            getTranslation('notification_critical_api_config_message'),
+            false
+        )
+        await notification.show();
+        return
+    }
+
     /** @type {string} */
     const server = apiConfig.server;
     try {
